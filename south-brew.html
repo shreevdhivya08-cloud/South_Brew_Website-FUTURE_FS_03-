@@ -1,0 +1,491 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>South Brew — Coffee Roasted Slow, Poured Right</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,500;0,9..144,600;0,9..144,700;1,9..144,500&family=Work+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --espresso: #1C130D;
+    --espresso-2: #2A1D14;
+    --grain: #EDE0C8;
+    --grain-2: #E3D3AE;
+    --copper: #B5651D;
+    --gold: #D9A441;
+    --cream-text: #F5EDE0;
+    --dark-text: #6e360e;
+    --line: rgba(245,237,224,0.16);
+    --line-dark: rgba(42,29,20,0.15);
+  }
+  *{box-sizing:border-box; margin:0; padding:0;}
+  html{scroll-behavior:smooth;}
+  body{
+    font-family:'Work Sans', sans-serif;
+    background:var(--grain);
+    color:var(--dark-text);
+    line-height:1.5;
+    overflow-x:hidden;
+  }
+  h1,h2,h3,.display{
+    font-family:'Fraunces', serif;
+    font-weight:600;
+    letter-spacing:-0.01em;
+  }
+  a{color:inherit; text-decoration:none;}
+  img{max-width:100%; display:block;}
+  .wrap{max-width:1120px; margin:0 auto; padding:0 28px;}
+
+  @media (prefers-reduced-motion: reduce){
+    *{animation:none !important; transition:none !important;}
+  }
+
+  /* ---------- NAV ---------- */
+  nav{
+    position:fixed; top:0; left:0; right:0; z-index:100;
+    background:rgba(28,19,13,0.92);
+    backdrop-filter:blur(6px);
+    border-bottom:1px solid var(--line);
+  }
+  .nav-inner{
+    display:flex; align-items:center; justify-content:space-between;
+    padding:16px 28px; max-width:1120px; margin:0 auto;
+  }
+  .nav-mark{
+    color:var(--cream-text); font-family:'Fraunces',serif; font-weight:700;
+    font-size:1.25rem; letter-spacing:0.01em;
+  }
+  .nav-mark span{color:var(--gold);}
+  .nav-links{display:flex; gap:32px; list-style:none;}
+  .nav-links a{
+    color:var(--cream-text); font-size:0.88rem; font-weight:500;
+    opacity:0.82; transition:opacity 0.2s;
+  }
+  .nav-links a:hover{opacity:1;}
+  .nav-cta{
+    background:var(--copper); color:var(--cream-text) !important;
+    padding:9px 18px; border-radius:2px; font-size:0.85rem; font-weight:600;
+    opacity:1 !important;
+  }
+  .nav-toggle{display:none; background:none; border:none; color:var(--cream-text); font-size:1.5rem; cursor:pointer;}
+
+  @media (max-width:800px){
+    .nav-links{
+      position:fixed; top:64px; left:0; right:0; bottom:0;
+      background:var(--espresso); flex-direction:column; gap:0;
+      padding:12px 28px; transform:translateX(100%); transition:transform 0.3s ease;
+    }
+    .nav-links.open{transform:translateX(0);}
+    .nav-links li{border-bottom:1px solid var(--line);}
+    .nav-links a{display:block; padding:16px 0;}
+    .nav-toggle{display:block;}
+  }
+
+  /* ---------- HERO ---------- */
+  .hero{
+    background:var(--espresso);
+    color:var(--cream-text);
+    padding:150px 0 90px;
+    position:relative;
+    overflow:hidden;
+  }
+  .hero::before{
+    content:"";
+    position:absolute; inset:0;
+    background-image:
+      radial-gradient(circle at 15% 25%, rgba(217,164,65,0.10), transparent 40%),
+      radial-gradient(circle at 85% 70%, rgba(181,101,29,0.14), transparent 45%);
+    pointer-events:none;
+  }
+  .hero-grid{
+    display:grid; grid-template-columns:1.1fr 0.9fr; gap:56px; align-items:center;
+    position:relative; z-index:1;
+  }
+  .eyebrow{
+    display:inline-flex; align-items:center; gap:10px;
+    font-size:0.78rem; text-transform:uppercase; letter-spacing:0.16em;
+    color:var(--gold); margin-bottom:22px; font-weight:600;
+  }
+  .eyebrow::before{content:""; width:26px; height:1px; background:var(--gold);}
+  .hero h1{
+    font-size:clamp(2.6rem, 5.4vw, 4.4rem);
+    line-height:1.03;
+    margin-bottom:22px;
+  }
+  .hero h1 em{font-style:italic; color:var(--gold); font-weight:500;}
+  .hero p.lede{
+    font-size:1.08rem; max-width:480px; opacity:0.82; margin-bottom:34px;
+  }
+  .hero-actions{display:flex; gap:14px; flex-wrap:wrap;}
+  .btn{
+    display:inline-block; padding:14px 28px; border-radius:2px;
+    font-weight:600; font-size:0.92rem; transition:transform 0.2s, opacity 0.2s;
+    border:1px solid transparent; cursor:pointer;
+  }
+  .btn:hover{transform:translateY(-2px);}
+  .btn-primary{background:var(--copper); color:var(--cream-text);}
+  .btn-ghost{border-color:var(--line); color:var(--cream-text);}
+  .hero-meta{
+    display:flex; gap:36px; margin-top:52px; padding-top:28px;
+    border-top:1px solid var(--line);
+  }
+  .hero-meta div b{display:block; font-family:'Fraunces',serif; font-size:1.5rem; color:var(--gold);}
+  .hero-meta div span{font-size:0.78rem; opacity:0.7;}
+
+  /* Pour-over signature graphic */
+  .pour-card{
+    background:var(--espresso-2);
+    border:1px solid var(--line);
+    border-radius:4px;
+    padding:32px;
+    position:relative;
+  }
+  .pour-card .cap{
+    font-size:0.74rem; text-transform:uppercase; letter-spacing:0.14em;
+    opacity:0.6; margin-bottom:18px;
+  }
+  .drip-svg{width:100%; height:auto; display:block;}
+  .drop{ animation:fall 2.6s ease-in infinite; opacity:0; transform-origin:center; }
+  .drop:nth-child(2){animation-delay:0.9s;}
+  .drop:nth-child(3){animation-delay:1.8s;}
+  @keyframes fall{
+    0%{ transform:translateY(0); opacity:0;}
+    8%{opacity:1;}
+    70%{ transform:translateY(52px); opacity:1;}
+    85%{ transform:translateY(58px); opacity:0;}
+    100%{opacity:0;}
+  }
+  .ripple{ animation:ripple 2.6s ease-out infinite; transform-origin:center; }
+  .ripple:nth-child(5){animation-delay:2.55s;}
+  @keyframes ripple{
+    0%,68%{opacity:0; transform:scale(0.4);}
+    74%{opacity:0.6; transform:scale(0.7);}
+    100%{opacity:0; transform:scale(1.5);}
+  }
+
+  /* ---------- SECTION HEADERS ---------- */
+  .section{padding:96px 0;}
+  .section-head{max-width:600px; margin-bottom:56px;}
+  .section-head .eyebrow{color:var(--copper);}
+  .section-head .eyebrow::before{background:var(--copper);}
+  .section-head h2{font-size:clamp(1.9rem,3.4vw,2.6rem); color:var(--dark-text);}
+  .section-head p{margin-top:14px; opacity:0.72; font-size:1.02rem;}
+  .on-dark .section-head h2{color:var(--cream-text);}
+  .on-dark .section-head p{color:var(--cream-text); opacity:0.65;}
+
+  /* ---------- ABOUT ---------- */
+  .about{background:var(--grain);}
+  .about-grid{display:grid; grid-template-columns:0.9fr 1.1fr; gap:64px; align-items:start;}
+  .about-photo{
+    aspect-ratio:4/5; border-radius:4px; overflow:hidden;
+    background:linear-gradient(160deg, #8a5a30, #4a2f18);
+    position:relative;
+  }
+  .about-photo img{width:100%; height:100%; object-fit:cover;}
+  .about-text p{margin-bottom:18px; font-size:1.02rem; opacity:0.85;}
+  .stat-row{display:flex; gap:40px; margin-top:32px; flex-wrap:wrap;}
+  .stat-row div b{
+    display:block; font-family:'Fraunces',serif; font-size:2.1rem; color:var(--copper);
+  }
+  .stat-row div span{font-size:0.82rem; opacity:0.65;}
+
+  /* ---------- MENU (receipt style) ---------- */
+  .menu{background:var(--espresso); color:var(--cream-text);}
+  .menu-tabs{display:flex; gap:8px; margin-bottom:8px; flex-wrap:wrap;}
+  .menu-tab{
+    padding:9px 18px; border:1px solid var(--line); border-radius:20px;
+    font-size:0.82rem; cursor:pointer; background:transparent; color:var(--cream-text);
+    opacity:0.65; transition:all 0.2s; font-family:'Work Sans',sans-serif;
+  }
+  .menu-tab.active{opacity:1; border-color:var(--gold); background:rgba(217,164,65,0.12); color:var(--gold);}
+  .ticket{
+    background:var(--espresso-2); border:1px solid var(--line); border-radius:4px;
+    padding:8px 0; margin-top:32px;
+  }
+  .menu-group{display:none;}
+  .menu-group.active{display:block;}
+  .menu-row{
+    display:flex; justify-content:space-between; align-items:baseline; gap:20px;
+    padding:18px 32px; border-bottom:1px dashed var(--line);
+  }
+  .menu-row:last-child{border-bottom:none;}
+  .menu-row .name{font-family:'Fraunces',serif; font-size:1.08rem; font-weight:500;}
+  .menu-row .desc{display:block; font-size:0.84rem; opacity:0.6; font-weight:400; margin-top:3px; font-family:'Work Sans',sans-serif;}
+  .menu-row .price{color:var(--gold); font-weight:600; white-space:nowrap; font-family:'Fraunces',serif;}
+
+  /* ---------- TRUST / REVIEWS ---------- */
+  .trust{background:var(--grain-2);}
+  .trust-grid{display:grid; grid-template-columns:repeat(3,1fr); gap:24px;}
+  .trust-card{
+    background:var(--grain); border:1px solid var(--line-dark); border-radius:4px;
+    padding:28px; position:relative;
+  }
+  .stars{color:var(--copper); letter-spacing:2px; font-size:0.9rem; margin-bottom:14px;}
+  .trust-card p{font-size:0.95rem; opacity:0.85; margin-bottom:18px; font-style:italic;}
+  .trust-name{font-weight:600; font-size:0.88rem;}
+  .trust-role{font-size:0.78rem; opacity:0.6;}
+
+  /* ---------- LOCATION / CONTACT ---------- */
+  .visit{background:var(--espresso); color:var(--cream-text);}
+  .visit-grid{display:grid; grid-template-columns:1fr 1fr; gap:56px;}
+  .info-list{list-style:none; margin-top:28px;}
+  .info-list li{
+    display:flex; gap:16px; padding:16px 0; border-top:1px solid var(--line);
+  }
+  .info-list li:last-child{border-bottom:1px solid var(--line);}
+  .info-list .ic{
+    width:20px; color:var(--gold); font-weight:700; flex-shrink:0; padding-top:2px;
+  }
+  .info-list b{display:block; font-size:0.95rem; margin-bottom:2px;}
+  .info-list span{font-size:0.86rem; opacity:0.65;}
+  .map-box{
+    border-radius:4px; overflow:hidden; border:1px solid var(--line);
+    background:var(--espresso-2); min-height:340px;
+  }
+  .map-box iframe{width:100%; height:100%; min-height:340px; border:0; filter:grayscale(0.3) sepia(0.15);}
+
+  /* ---------- FOOTER ---------- */
+  footer{background:#150E09; color:var(--cream-text); padding:48px 0 28px;}
+  .footer-grid{
+    display:flex; justify-content:space-between; align-items:center;
+    flex-wrap:wrap; gap:20px; padding-bottom:28px; border-bottom:1px solid var(--line);
+  }
+  .footer-mark{font-family:'Fraunces',serif; font-size:1.3rem; font-weight:700;}
+  .footer-mark span{color:var(--gold);}
+  .footer-social{display:flex; gap:20px; font-size:0.85rem; opacity:0.75;}
+  .footer-bottom{
+    display:flex; justify-content:space-between; padding-top:22px;
+    font-size:0.78rem; opacity:0.5; flex-wrap:wrap; gap:10px;
+  }
+
+  /* ---------- RESPONSIVE ---------- */
+  @media (max-width:860px){
+    .hero-grid, .about-grid, .visit-grid{grid-template-columns:1fr;}
+    .trust-grid{grid-template-columns:1fr;}
+    .hero{padding-top:120px;}
+    .pour-card{order:-1;}
+  }
+
+  /* focus visibility */
+  a:focus-visible, button:focus-visible{outline:2px solid var(--gold); outline-offset:2px;}
+</style>
+</head>
+<body>
+
+<nav>
+  <div class="nav-inner">
+    <a href="#top" class="nav-mark">South<span>Brew</span></a>
+    <ul class="nav-links" id="navLinks">
+      <li><a href="#about">About</a></li>
+      <li><a href="#menu">Menu</a></li>
+      <li><a href="#reviews">Reviews</a></li>
+      <li><a href="#visit">Visit</a></li>
+      <li><a href="#visit" class="nav-cta">Get Directions</a></li>
+    </ul>
+    <button class="nav-toggle" id="navToggle" aria-label="Toggle menu">☰</button>
+  </div>
+</nav>
+
+<header class="hero" id="top">
+  <div class="wrap hero-grid">
+    <div>
+      <div class="eyebrow">Neighborhood Roastery &amp; Café</div>
+      <h1>Coffee that earns<br><em>a second cup.</em></h1>
+      <p class="lede">South Brew roasts in small batches and pours every cup to order — no syrups pretending to be flavor, no rush at the counter. Come sit a while.</p>
+      <div class="hero-actions">
+        <a href="#menu" class="btn btn-primary">See the Menu</a>
+        <a href="#visit" class="btn btn-ghost">Find Us</a>
+      </div>
+      <div class="hero-meta">
+        <div><b>6:30 AM</b><span>Opens daily</span></div>
+        <div><b>4</b><span>Signature roasts</span></div>
+        <div><b>Since 2019</b><span>Family run</span></div>
+      </div>
+    </div>
+
+    <div class="pour-card">
+      <div class="cap">Today's Pour — Ethiopian Yirgacheffe</div>
+      <svg class="drip-svg" viewBox="0 0 260 220" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Illustration of a pour-over coffee dripper">
+        <!-- dripper cone -->
+        <path d="M70 20 L190 20 L145 90 L115 90 Z" fill="none" stroke="#D9A441" stroke-width="2"/>
+        <rect x="60" y="10" width="140" height="10" rx="2" fill="#D9A441"/>
+        <!-- drops -->
+        <ellipse class="drop" cx="130" cy="95" rx="4" ry="6" fill="#D9A441"/>
+        <ellipse class="drop" cx="130" cy="95" rx="4" ry="6" fill="#D9A441"/>
+        <ellipse class="drop" cx="130" cy="95" rx="4" ry="6" fill="#D9A441"/>
+        <!-- cup -->
+        <path d="M90 150 L170 150 L162 205 L98 205 Z" fill="none" stroke="#F5EDE0" stroke-width="2" opacity="0.85"/>
+        <path d="M170 160 Q195 160 195 178 Q195 196 170 194" fill="none" stroke="#F5EDE0" stroke-width="2" opacity="0.85"/>
+        <!-- liquid + ripple -->
+        <ellipse cx="130" cy="152" rx="38" ry="6" fill="#8a5a30" opacity="0.9"/>
+        <ellipse class="ripple" cx="130" cy="152" rx="38" ry="6" fill="none" stroke="#D9A441" stroke-width="1.4"/>
+        <ellipse class="ripple" cx="130" cy="152" rx="38" ry="6" fill="none" stroke="#D9A441" stroke-width="1.4"/>
+      </svg>
+    </div>
+  </div>
+</header>
+
+<section class="section about" id="about">
+  <div class="wrap about-grid">
+    <div class="about-photo">
+      <svg viewBox="0 0 400 500" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Illustration of roasted coffee beans">
+        <rect width="400" height="500" fill="#3C2718"/>
+        <g fill="#B5651D" opacity="0.9">
+          <ellipse cx="90" cy="120" rx="34" ry="22" transform="rotate(30 90 120)"/>
+          <ellipse cx="180" cy="90" rx="34" ry="22" transform="rotate(-20 180 90)"/>
+          <ellipse cx="270" cy="150" rx="34" ry="22" transform="rotate(50 270 150)"/>
+          <ellipse cx="130" cy="220" rx="34" ry="22" transform="rotate(10 130 220)"/>
+          <ellipse cx="240" cy="260" rx="34" ry="22" transform="rotate(-35 240 260)"/>
+          <ellipse cx="80" cy="330" rx="34" ry="22" transform="rotate(60 80 330)"/>
+          <ellipse cx="200" cy="360" rx="34" ry="22" transform="rotate(-5 200 360)"/>
+          <ellipse cx="310" cy="330" rx="34" ry="22" transform="rotate(25 310 330)"/>
+          <ellipse cx="150" cy="420" rx="34" ry="22" transform="rotate(40 150 420)"/>
+          <ellipse cx="280" cy="440" rx="34" ry="22" transform="rotate(-15 280 440)"/>
+        </g>
+      </svg>
+    </div>
+    <div class="about-text">
+      <div class="eyebrow">Our Story</div>
+      <h2 style="font-size:2rem; margin-bottom:18px;">Started with one drum roaster and a folding table.</h2>
+      <p>South Brew began in a garage with a 1kg sample roaster and a promise: never sell a bag of beans we wouldn't drink ourselves. Six years later, the roaster's bigger, the tables are wooden, but the promise hasn't moved.</p>
+      <p>We source direct from three smallholder co-ops, roast twice a week in-house, and pull every espresso shot fresh — nothing sits under a heat lamp here.</p>
+      <div class="stat-row">
+        <div><b>3</b><span>Direct-trade farms</span></div>
+        <div><b>12hr</b><span>Max bean-to-cup window</span></div>
+        <div><b>500+</b><span>Regulars who know our names</span></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="section menu" id="menu">
+  <div class="wrap">
+    <div class="section-head on-dark">
+      <div class="eyebrow" style="color:var(--gold)">On the Menu</div>
+      <h2>Simple list. Serious coffee.</h2>
+      <p>Everything's made to order — ask your barista for the roast note of the day.</p>
+    </div>
+
+    <div class="menu-tabs" role="tablist">
+      <button class="menu-tab active" data-tab="coffee">Coffee</button>
+      <button class="menu-tab" data-tab="brews">Filter Brews</button>
+      <button class="menu-tab" data-tab="food">Food</button>
+    </div>
+
+    <div class="ticket">
+      <div class="menu-group active" id="coffee">
+        <div class="menu-row"><div><span class="name">Espresso</span><span class="desc">Double shot, house blend</span></div><span class="price">Rs.300</span></div>
+        <div class="menu-row"><div><span class="name">Cortado</span><span class="desc">Equal parts espresso and steamed milk</span></div><span class="price">Rs.400</span></div>
+        <div class="menu-row"><div><span class="name">Flat White</span><span class="desc">Micro-foam, double ristretto</span></div><span class="price">Rs.450</span></div>
+        <div class="menu-row"><div><span class="name">South Brew Latte</span><span class="desc">Our signature — cinnamon-cardamom syrup, house made</span></div><span class="price">Rs.525</span></div>
+        <div class="menu-row"><div><span class="name">Iced Cold Brew</span><span class="desc">Steeped 18 hours, served over ice</span></div><span class="price">Rs.475</span></div>
+      </div>
+      <div class="menu-group" id="brews">
+        <div class="menu-row"><div><span class="name">Ethiopian Yirgacheffe</span><span class="desc">Floral, bergamot, light roast — pour-over</span></div><span class="price">Rs.550</span></div>
+        <div class="menu-row"><div><span class="name">Colombian Huila</span><span class="desc">Caramel, walnut, medium roast — pour-over</span></div><span class="price">Rs.500</span></div>
+        <div class="menu-row"><div><span class="name">Sumatra Mandheling</span><span class="desc">Earthy, dark chocolate, full body</span></div><span class="price">Rs.500</span></div>
+        <div class="menu-row"><div><span class="name">Decaf House Blend</span><span class="desc">Swiss water process</span></div><span class="price">Rs.450</span></div>
+      </div>
+      <div class="menu-group" id="food">
+        <div class="menu-row"><div><span class="name">Butter Croissant</span><span class="desc">Baked fresh every morning</span></div><span class="price">Rs.375</span></div>
+        <div class="menu-row"><div><span class="name">Avocado Toast</span><span class="desc">Sourdough, chili flake, lemon</span></div><span class="price">Rs.350</span></div>
+        <div class="menu-row"><div><span class="name">Banana Walnut Loaf</span><span class="desc">Slice, warmed on request</span></div><span class="price">Rs.425</span></div>
+        <div class="menu-row"><div><span class="name">Breakfast Sandwich</span><span class="desc">Egg, cheddar, herb aioli, brioche</span></div><span class="price">Rs.495</span></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="section trust" id="reviews">
+  <div class="wrap">
+    <div class="section-head">
+      <div class="eyebrow">What People Say</div>
+      <h2>Trusted by the neighborhood</h2>
+      <p>Real feedback from regulars and first-time visitors alike.</p>
+    </div>
+    <div class="trust-grid">
+      <div class="trust-card">
+        <div class="stars">★★★★★</div>
+        <p>"Best flat white in the area, hands down. The staff remember my order after two visits."</p>
+        <div class="trust-name">Priya M.</div>
+        <div class="trust-role">Regular since 2021</div>
+      </div>
+      <div class="trust-card">
+        <div class="stars">★★★★★</div>
+        <p>"Quiet enough to work from, warm enough to feel like home. My go-to Saturday spot."</p>
+        <div class="trust-name">Arjun K.</div>
+        <div class="trust-role">Local resident</div>
+      </div>
+      <div class="trust-card">
+        <div class="stars">★★★★★</div>
+        <p>"The pour-over flight is a must-try. You can genuinely taste the difference in the beans."</p>
+        <div class="trust-name">Meera S.</div>
+        <div class="trust-role">First-time visitor</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="section visit" id="visit">
+  <div class="wrap visit-grid">
+    <div>
+      <div class="eyebrow" style="color:var(--gold)">Visit Us</div>
+      <h2 style="font-size:2rem;">Come by, we'll have a seat ready.</h2>
+      <ul class="info-list">
+        <li><span class="ic">📍</span><div><b>Address</b><span>14 Race Course Road, Coimbatore, TN 641018</span></div></li>
+        <li><span class="ic">🕒</span><div><b>Hours</b><span>Mon–Sat 6:30 AM – 8:00 PM · Sun 7:30 AM – 6:00 PM</span></div></li>
+        <li><span class="ic">📞</span><div><b>Phone</b><span>+91 98765 43210</span></div></li>
+        <li><span class="ic">✉️</span><div><b>Email</b><span>hello@southbrew.cafe</span></div></li>
+      </ul>
+      <div class="hero-actions" style="margin-top:28px;">
+        <a href="tel:+919876543210" class="btn btn-primary">Call to Reserve a Table</a>
+      </div>
+    </div>
+    <div class="map-box">
+      <iframe loading="lazy" referrerpolicy="no-referrer-when-downgrade"
+        src="https://www.google.com/maps?q=Race+Course+Road,+Coimbatore&output=embed"
+        title="Map showing South Brew location"></iframe>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap">
+    <div class="footer-grid">
+      <div class="footer-mark">South<span>Brew</span></div>
+      <div class="footer-social">
+        <a href="#">Instagram</a>
+        <a href="#">Facebook</a>
+        <a href="#visit">Directions</a>
+      </div>
+    </div>
+    <div class="wrap footer-bottom" style="padding:0;">
+      <span>© 2026 South Brew Café. All rights reserved.</span>
+      <span>Roasted &amp; poured in Coimbatore.</span>
+    </div>
+  </div>
+</footer>
+
+<script>
+  // mobile nav toggle
+  const navToggle = document.getElementById('navToggle');
+  const navLinks = document.getElementById('navLinks');
+  navToggle.addEventListener('click', () => navLinks.classList.toggle('open'));
+  navLinks.querySelectorAll('a').forEach(a => a.addEventListener('click', () => navLinks.classList.remove('open')));
+
+  // menu tabs
+  const tabs = document.querySelectorAll('.menu-tab');
+  const groups = document.querySelectorAll('.menu-group');
+  tabs.forEach(tab => {
+    tab.addEventListener('click', () => {
+      tabs.forEach(t => t.classList.remove('active'));
+      groups.forEach(g => g.classList.remove('active'));
+      tab.classList.add('active');
+      document.getElementById(tab.dataset.tab).classList.add('active');
+    });
+  });
+</script>
+
+</body>
+</html>
